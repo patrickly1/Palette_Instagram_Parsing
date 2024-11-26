@@ -8,6 +8,7 @@ def parse_instagram_html(file_path, post_type):
     soup = BeautifulSoup(content, 'html.parser')
 
     # Extracting information
+    username = soup.find('meta', {'name': 'twitter:title'})
     user_id = soup.find('meta', {'property': 'instapp:owner_user_id'})
     description = soup.find('meta', {'name': 'description'})
     url = soup.find('link', {'rel': 'alternate', 'hreflang': 'x-default'})
@@ -16,6 +17,7 @@ def parse_instagram_html(file_path, post_type):
     # Clean and format
     result = {
         "Type": post_type,
+        "Username": username if username else "Not Available",
         "UserID": user_id['content'] if user_id else "Not Available",
         "URL": url['href'] if url else "Not Available",
         "Category": "WORK IN PROGRESS",#category.strip() if category else "Not Available",
